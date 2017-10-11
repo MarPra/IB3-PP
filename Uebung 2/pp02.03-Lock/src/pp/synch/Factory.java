@@ -8,14 +8,25 @@ public class Factory {
 
 	public static Type getInstance() {
 		Type.prepare();
-		synchronized(Factory.class) {
-		if (instance == null) {
-			instance = new Type();
-		}
-		return instance;
+		synchronized (Factory.class) {
+			if (instance == null) {
+				instance = new Type();
+			}
+			return instance;
 		}
 	}
 
+	// private static Factory myInstance = new Factory();
+	//
+	// public static Type getInstance() {
+	// Type.prepare();
+	// synchronized(myInstance) {
+	// if (instance == null) {
+	// instance = new Type();
+	// }
+	// return instance;
+	// }
+	// }
 	public static void main(final String[] args) throws InterruptedException {
 		final long now = System.currentTimeMillis();
 		final Thread[] threads = new Thread[100];
@@ -23,7 +34,7 @@ public class Factory {
 			threads[i] = new Thread(() -> {
 				final Type object = Factory.getInstance();
 				System.out.println(Thread.currentThread().getName() + ": serial of instance = " + object.getSerial());
-			}, String.format("InstanceGrabber-%02d", i));
+			} , String.format("InstanceGrabber-%02d", i));
 			threads[i].start();
 		}
 		for (int i = 0; i < 100; i++) {
