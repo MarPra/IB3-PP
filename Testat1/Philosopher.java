@@ -122,3 +122,4 @@ public class Philosopher extends Thread implements IPhilosopher {
         return temp;
     }
 }
+ 
